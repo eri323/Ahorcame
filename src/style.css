@@ -4,11 +4,7 @@ body{
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   background-image: url("./assets/aho.jpg");
   background-size: cover;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: center;
-  padding-right: 200px;
+
 }
 
 

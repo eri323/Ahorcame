@@ -1,38 +1,40 @@
 <template>
   <div class="body">
-
-    <div class="encabezado">
-      <h1 class="title">Bienvenido</h1>
-      <p class="TextInicio">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nostrum velit odit quo, debitis expedita explicabo
-        ullam dolor ad earum voluptatem sit eligendi inventore aperiam molestiae reiciendis incidunt vel ducimus.
-        Voluptate.</p>
-    </div>
-    <div class="jugar">
-      <button class="BotonJugar type1" @click="ShowCard">
-        <span class="btn-txt">Jugar</span>
-      </button>
-      <div id="ContainerDificultad" :class="{ 'visible': isCardVisible }">
-        <h3>Elige la dificultad </h3>
-        <div class="BotonesDificultad">
-          <button class="BotonFacil" id="Botones" @click="ShowCardCategoria">{{ DificultadFacil }}</button>
-          <button class="BotonMedio" id="Botones" @click="ShowCardCategoria">{{ DificultadMedio }}</button>
-          <button class="BotonDificil" id="Botones" @click="ShowCardCategoria">{{ DificultadDificil }}</button>
+    <div class="inicio">
+      <div class="encabezado">
+        <h1 class="title">Bienvenido</h1>
+        <p class="TextInicio">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nostrum velit odit quo, debitis expedita explicabo
+          ullam dolor ad earum voluptatem sit eligendi inventore aperiam molestiae reiciendis incidunt vel ducimus.
+          Voluptate.</p>
+      </div>
+      <div class="jugar">
+        <button class="BotonJugar type1" @click="ShowCard">
+          <span class="btn-txt">Jugar</span>
+        </button>
+        <div id="ContainerDificultad" :class="{ 'visible': isCardVisible }">
+          <h3>Elige la dificultad </h3>
+          <div class="BotonesDificultad">
+            <button class="BotonFacil" id="Botones" @click="ShowCardCategoria">{{ DificultadFacil }}</button>
+            <button class="BotonMedio" id="Botones" @click="ShowCardCategoria">{{ DificultadMedio }}</button>
+            <button class="BotonDificil" id="Botones" @click="ShowCardCategoria">{{ DificultadDificil }}</button>
+          </div>
+        </div>
+        <div id="ContainerCategoria" :class="{ 'visibleCategoria': isCardVisibleCategoria }">
+          <h3>Elige la categoria en la que desees jugar</h3>
+          <div class="BotonesCategoria">
+            <button id="BtnFrutas" class="BtnCategoria">
+              <span class="spanbtn">Frutas</span>
+            </button>
+            <button id="BtnAnimales" class="BtnCategoria">
+              <span class="spanbtn">Animales</span>
+            </button>
+            <button id="BtnPaises" class="BtnCategoria"><span class="spanbtn">Paises</span></button>
+            <button id="BtnCompas" class="BtnCategoria"><span class="spanbtn">Compas del SENA</span></button>
+          </div>
         </div>
       </div>
-      <div id="ContainerCategoria" :class="{ 'visibleCategoria': isCardVisibleCategoria }">
-        <h3>Elige la categoria en la que desees jugar</h3>
-        <div class="BotonesCategoria">
-          <button id="BtnFrutas" class="BtnCategoria">
-            <span class="spanbtn">Frutas</span>
-          </button>
-          <button id="BtnAnimales" class="BtnCategoria">
-            <span class="spanbtn">Animales</span>
-          </button>
-          <button id="BtnPaises" class="BtnCategoria"><span class="spanbtn">Paises</span></button>
-          <button id="BtnCompas" class="BtnCategoria"><span class="spanbtn">Compas del SENA</span></button>
-        </div>
-      </div>
     </div>
+    
   </div>
 </template>
 <script setup>
@@ -61,8 +63,16 @@ function ShowCardCategoria() {
 </script>
 
 <style scoped>
+
+.body{
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
 .title {
   font-size: 55px;
+  
 }
 .TextInicio{
   font-size: 20px;
@@ -76,7 +86,7 @@ function ShowCardCategoria() {
   src: url("./fonts/Anta-Regular.ttf");
 }
 
-.body {
+.inicio {
   font-family: "Pa ver";
   background-color: rgba(255, 255, 255, 0.418);
   padding: 20PX;
@@ -174,6 +184,7 @@ function ShowCardCategoria() {
 #Botones:hover {
   background-color: black;
   color: white;
+  transition: all 0.5s ease-in-out;
 }
 
 #ContainerCategoria {
