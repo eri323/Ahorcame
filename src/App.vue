@@ -3,7 +3,8 @@
     <div class="inicio">
       <div class="encabezado">
         <h1 class="title">Bienvenido</h1>
-        <p class="TextInicio">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nostrum velit odit quo, debitis expedita explicabo
+        <p class="TextInicio">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nostrum velit odit quo, debitis
+          expedita explicabo
           ullam dolor ad earum voluptatem sit eligendi inventore aperiam molestiae reiciendis incidunt vel ducimus.
           Voluptate.</p>
       </div>
@@ -14,32 +15,40 @@
         <div id="ContainerDificultad" :class="{ 'visible': isCardVisible }">
           <h3>Elige la dificultad </h3>
           <div class="BotonesDificultad">
-            <button class="BotonFacil" id="Botones" @click="ShowCardCategoria">{{ DificultadFacil }}</button>
-            <button class="BotonMedio" id="Botones" @click="ShowCardCategoria">{{ DificultadMedio }}</button>
-            <button class="BotonDificil" id="Botones" @click="ShowCardCategoria">{{ DificultadDificil }}</button>
+            <button class="BotonFacil" id="Botones" @click="seleccionarDificultad('Fácil')">
+              <span class="BotonDificultadSpan" > {{ DificultadFacil }} <!-- <Frutas :dificultadSelec="dificultadSeleccionada"/>  --> </span> </button>
+            <button class="BotonMedio" id="Botones" @click="seleccionarDificultad('Medio')"> <span
+                class="BotonDificultadSpan" > {{ DificultadMedio }} <!-- <Frutas :dificultadSelec="dificultadSeleccionada"/> --></span> </button>
+            <button class="BotonDificil" id="Botones" @click="seleccionarDificultad('Dificil')"><span
+                class="BotonDificultadSpan" > {{ DificultadDificil }} <!-- <Frutas :dificultadSelec="dificultadSeleccionada"/> --> </span></button>
           </div>
+           <Frutas :dificultadSelec="dificultadSeleccionada" style="display: none;"/>
         </div>
         <div id="ContainerCategoria" :class="{ 'visibleCategoria': isCardVisibleCategoria }">
           <h3>Elige la categoria en la que desees jugar</h3>
           <div class="BotonesCategoria">
             <button id="BtnFrutas" class="BtnCategoria">
-              <span class="spanbtn">Frutas</span>
+              <span class="spanbtn" @click="seleccionarCategoria('Frutas')" >Frutas</span>
             </button>
             <button id="BtnAnimales" class="BtnCategoria">
-              <span class="spanbtn">Animales</span>
+              <span class="spanbtn" @click="seleccionarCategoria('Animales')">Animales</span>
             </button>
-            <button id="BtnPaises" class="BtnCategoria"><span class="spanbtn">Paises</span></button>
-            <button id="BtnCompas" class="BtnCategoria"><span class="spanbtn">Compas del SENA</span></button>
+            <button id="BtnPaises" class="BtnCategoria"> <span class="spanbtn"
+                @click="seleccionarCategoria('Paises')">Paises</span></button>
+            <button id="BtnCompas" class="BtnCategoria"><span class="spanbtn"
+                @click="seleccionarCategoria('Compas')">Compas del SENA</span></button>
           </div>
         </div>
       </div>
     </div>
-    
   </div>
 </template>
 <script setup>
 
 import { ref } from 'vue';
+import Frutas from './components/Frutas.vue';
+
+const text = ref(`Frutas`)
 
 let isCardVisible = ref(false)
 
@@ -51,32 +60,52 @@ let DificultadMedio = ref("Medio")
 
 let DificultadDificil = ref("Dificil")
 
+const categoriaSelec = ref('');
+const dificultadSeleccionada = ref('');
+const dificultadError = ref(0);
+const imagenError = ref('');
+let errorCount = ref(0);
+let palabraSecreta = ref('');
+let juegoPerdido = ref(false);
+let juegoGanado = ref(false);
+let letrasRestantes = ref(0);
 function ShowCard() {
   isCardVisible.value = true;
 }
 
-function ShowCardCategoria() {
-  isCardVisibleCategoria.value = true;
-}
+
+
+
+const seleccionarDificultad = (dificultad) => {
+  dificultadSeleccionada.value = dificultad;
+  isCardVisibleCategoria.value = true; // Muestra la categoría seleccionada
+  console.log("difi:", dificultadSeleccionada.value);
+};
 
 
 </script>
 
 <style scoped>
+.BotonDificultadSpan {
+  padding: 20px 20px;
+}
 
-.body{
+.body {
   display: flex;
   height: 100vh;
   justify-content: center;
   align-items: center;
 }
+
 .title {
   font-size: 55px;
-  
+
 }
-.TextInicio{
+
+.TextInicio {
   font-size: 20px;
 }
+
 * {
   font-family: "Pa ver";
 }
