@@ -15,7 +15,7 @@
         <div id="ContainerDificultad" :class="{ 'visible': isCardVisible }">
           <h3>Elige la dificultad </h3>
           <div class="BotonesDificultad">
-            <button class="BotonFacil" id="Botones" @click="seleccionarDificultad('Fácil')">
+            <button class="BotonFacil" id="Botones" @click="seleccionarDificultad('Facil')">
               <span class="BotonDificultadSpan" > {{ DificultadFacil }} <!-- <Frutas :dificultadSelec="dificultadSeleccionada"/>  --> </span> </button>
             <button class="BotonMedio" id="Botones" @click="seleccionarDificultad('Medio')"> <span
                 class="BotonDificultadSpan" > {{ DificultadMedio }} <!-- <Frutas :dificultadSelec="dificultadSeleccionada"/> --></span> </button>
@@ -62,6 +62,7 @@ let DificultadDificil = ref("Dificil")
 
 const categoriaSelec = ref('');
 const dificultadSeleccionada = ref('');
+
 const dificultadError = ref(0);
 const imagenError = ref('');
 let errorCount = ref(0);
@@ -80,6 +81,7 @@ const seleccionarDificultad = (dificultad) => {
   dificultadSeleccionada.value = dificultad;
   isCardVisibleCategoria.value = true; // Muestra la categoría seleccionada
   console.log("difi:", dificultadSeleccionada.value);
+  
 };
 
 

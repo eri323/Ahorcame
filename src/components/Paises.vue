@@ -2,55 +2,139 @@
     <div class="bodyPaises">
       <div>
         <h1>Ahorcame</h1>
+        <div class="ContainerImgs">
+          <img class="imgerror" :src="'./src/assets/' + errorCount + '.png'" alt="Ahorcado">
+        </div>
+         <div>
+          <h1 class="Msj">{{ mensaje }}</h1>
+        </div>
       </div>
       <div class="containerPaises">
         <div class="ContainerTituloPaises">
           <h1 class="TituloPaises">Paises</h1>
         </div>
         <div class="LetrasAñadidad">
-          <h5>Aqui va la palabra</h5>
+         <h2 class="LetrasAñadidas">{{ mostrarPalabraOculta() }}</h2>
         </div>
         <div class="tecladoContainerPais">
-          <h4 v-for="(letras, i) in Letras" :key="i" class="TecladoPaises">
-            {{ letras.letra }}
-          </h4>
+         <button v-for="letter in Letras" :key="letter" class="TecladoPais" @click="clickLetra(letter)"
+            :disabled="usoLetras.includes(letter) || !puedeSeleccionarLetra(letter) || juegoGanado">{{ letter }}
+          </button>
         </div>
       </div>
     </div>
   </template>
   
-  <script setup>
-  import { ref } from "vue";
-  const Letras = ref([
-    { letra: "A" },
-    { letra: "B" },
-    { letra: "C" },
-    { letra: "D" },
-    { letra: "E" },
-    { letra: "F" },
-    { letra: "G" },
-    { letra: "H" },
-    { letra: "I" },
-    { letra: "J" },
-    { letra: "K" },
-    { letra: "L" },
-    { letra: "M" },
-    { letra: "N" },
-    { letra: "Ñ" },
-    { letra: "O" },
-    { letra: "P" },
-    { letra: "Q" },
-    { letra: "R" },
-    { letra: "S" },
-    { letra: "T" },
-    { letra: "U" },
-    { letra: "V" },
-    { letra: "W" },
-    { letra: "X" },
-    { letra: "Y" },
-    { letra: "Z" },
-  ]);
-  </script>
+<script setup>
+
+import { ref, onMounted, defineProps } from "vue";
+onMounted(() => {
+  palabraSecreta.value = generarPalabraAleatoria(palabrasDisponibles);
+  letrasRestantes.value = palabraSecreta.value.length;
+});
+const Letras = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.split('');
+const usoLetras = ref([]);
+
+const dificultadSelec = defineProps({
+  dificultadSelec: String
+})
+
+
+let mensaje = ref("")
+let errorCount = ref(0);
+let palabraSecreta = ref('');
+let juegoPerdido = ref(false);
+let juegoGanado = ref(false);
+let letrasRestantes = ref(0);
+
+const palabrasDisponibles = [
+  "COLOMBIA",
+  "CHILE",
+  "CHINA",
+  "JAPON",
+  "ESPAÑA",
+  "SUECIA",
+  "MARRUECOS",
+  "EGIPTO",
+  "AUSTRALIA",
+  "NUEVA ZELANDA",
+  "CANADA",
+  "RUSIA",
+  "VENEZUELA",
+  "PAISES BAJOS"
+];
+
+
+
+function clickLetra(letter) {
+  if (!usoLetras.value.includes(letter)) {
+    usoLetras.value.push(letter);
+    if (palabraSecreta.value.includes(letter)) {
+      if (letrasAdivinadas()) {
+        juegoGanado = true;
+      }
+    } else {
+
+
+      // Ajusta errorCount según la dificultad seleccionada
+      /*   if (dificultadSelec.value === 'Facil')  */
+      letrasRestantes.value--;
+      errorCount.value += 2;
+      /*  else if (dificultadSelec.value === 'Medio') {
+        letrasRestantes.value--;
+        errorCount.value += 2; // Por ejemplo, aumenta en 2 en dificultad difícil
+      } else if (dificultadSelec.value === 'Dificil') {
+        letrasRestantes.value--;
+        errorCount.value += 3; // Por ejemplo, aumenta en 2 en dificultad difícil
+      } */
+
+      // Llama a la función para mostrar la imagen de error.
+      if (errorCount.value >= 6) {
+        juegoPerdido.value = true;
+        mensaje.value = "Perdiste"
+      }
+      else  {
+        mensaje.value = "Ganaste mamahuevo"
+      }
+    }
+  }
+}
+console.log("errorCount:", errorCount.value);
+
+
+function mostrarPalabraOculta() {
+  let palabraMostrada = '';
+  for (const letra of palabraSecreta.value) {
+    if (usoLetras.value.includes(letra)) {
+      palabraMostrada += letra;
+    } else {
+      palabraMostrada += '_';
+    }
+    palabraMostrada += ' ';
+  }
+  return palabraMostrada.trim();
+}
+
+function letrasAdivinadas() {
+  for (const letra of palabraSecreta.value) {
+    if (!usoLetras.value.includes(letra)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+
+
+function puedeSeleccionarLetra(letter) {
+  return letrasRestantes.value > 0 && !usoLetras.value.includes(letter);
+}
+function generarPalabraAleatoria(palabras) {
+  const randomIndex = Math.floor(Math.random() * palabras.length);
+  return palabras[randomIndex].toUpperCase();
+}
+
+</script>
   
   <style scoped>
   .bodyPaises {
@@ -74,18 +158,7 @@
     font-family: "Pa ver";
     src: url("./fonts/Anta-Regular.ttf");
   }
-  .TecladoPaises {
-    padding: 8px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    margin: 0;
-  }
-  .TecladoPaises:hover {
-    color: white;
-    background-color: black;
-    transition: all 0.5s ease-in-out;
-    cursor: pointer;
-  }
+ 
   .tecladoContainerPais {
     display: flex;
     flex-wrap: wrap;
@@ -96,6 +169,25 @@
   }
   .TituloPaises{
       font-size: 55px;
+  }
+  .TecladoPais {
+    font-family: "Pa ver";
+    padding: 8px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    margin: 0;
+    font-size: 25px;
+    color: black;
+    border: none;
+    font-weight: 800;
+    text-align: center;
+  }
+
+  .TecladoPais:hover {
+    color: white;
+    background-color: black;
+    transition: all 0.5s ease-in-out;
+    cursor: pointer;
   }
   </style>
   

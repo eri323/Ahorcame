@@ -28,6 +28,7 @@
 <script setup>
 
 import { ref, onMounted, defineProps } from "vue";
+/* import { dificultadSeleccionada } from './App.vue'; */
 onMounted(() => {
   palabraSecreta.value = generarPalabraAleatoria(palabrasDisponibles);
   letrasRestantes.value = palabraSecreta.value.length;
@@ -35,9 +36,10 @@ onMounted(() => {
 const Letras = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.split('');
 const usoLetras = ref([]);
 
-const dificultadSelec = defineProps({
-  dificultadSelec: String
-})
+
+const props = defineProps({
+  dificultadSelec: String,
+});
 
 
 let mensaje = ref("")
@@ -70,31 +72,32 @@ function clickLetra(letter) {
     usoLetras.value.push(letter);
     if (palabraSecreta.value.includes(letter)) {
       if (letrasAdivinadas()) {
-        juegoGanado = true;
+        juegoGanado.value = true;
       }
     } else {
-      
-
-      // Ajusta errorCount según la dificultad seleccionada
-    /*   if (dificultadSelec.value === 'Facil')  */
+      if (props.dificultadSelec === 'Facil') {
+        letrasRestantes.value--;
+        errorCount.value += 1;
+      } else if (props.dificultadSelec === 'Medio') {
         letrasRestantes.value--;
         errorCount.value += 2;
-      /*  else if (dificultadSelec.value === 'Medio') {
+      } else if (props.dificultadSelec === 'Dificil') {
         letrasRestantes.value--;
-        errorCount.value += 2; // Por ejemplo, aumenta en 2 en dificultad difícil
-      } else if (dificultadSelec.value === 'Dificil') {
-        letrasRestantes.value--;
-        errorCount.value += 3; // Por ejemplo, aumenta en 2 en dificultad difícil
-      } */
+        errorCount.value += 3;
+      }
 
-      // Llama a la función para mostrar la imagen de error.
       if (errorCount.value >= 6) {
         juegoPerdido.value = true;
-        mensaje.value = "Perdiste"
+        mensaje.value = "Perdiste";
+        // También puedes ocultar la letra aquí si es necesario.
+        // Esto debe manejarse en la vista, no en la lógica.
       }
     }
   }
 }
+
+
+/* console.log("Dificultad seleccionada:", dificultadSeleccionada.value); */
 console.log("errorCount:", errorCount.value);
 
 
