@@ -3,7 +3,11 @@
     <div class="containerJugabilidad">
       <h1>Ahorcame</h1>
       <div class="ContainerImgs">
-        <img class="imgerror" :src="'./src/assets/' + errorCount + '.png'" alt="Ahorcado">
+        <img
+          class="imgerror"
+          :src="'./src/assets/' + errorCount + '.png'"
+          alt="Ahorcado"
+        />
       </div>
       <div>
         <h1 class="Msj">{{ mensaje }}</h1>
@@ -17,8 +21,18 @@
         <h2 class="LetrasAñadidas">{{ mostrarPalabraOculta() }}</h2>
       </div>
       <div class="tecladoContainer">
-        <button v-for="letter in Letras" :key="letter" class="Teclado" @click="clickLetra(letter)"
-          :disabled="usoLetras.includes(letter) || !puedeSeleccionarLetra(letter) || juegoGanado">{{ letter }}
+        <button
+          v-for="letter in Letras"
+          :key="letter"
+          class="Teclado"
+          @click="clickLetra(letter)"
+          :disabled="
+            usoLetras.includes(letter) ||
+            !puedeSeleccionarLetra(letter) ||
+            juegoGanado
+          "
+        >
+          {{ letter }}
         </button>
       </div>
     </div>
@@ -26,25 +40,22 @@
 </template>
 
 <script setup>
-
 import { ref, onMounted, defineProps } from "vue";
 /* import { dificultadSeleccionada } from './App.vue'; */
 onMounted(() => {
   palabraSecreta.value = generarPalabraAleatoria(palabrasDisponibles);
   letrasRestantes.value = palabraSecreta.value.length;
 });
-const Letras = 'ABCDEFGHIJKLMNÑOPQRSTUVWXYZ'.split('');
+const Letras = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ".split("");
 const usoLetras = ref([]);
-
 
 const props = defineProps({
   dificultadSelec: String,
 });
 
-
-let mensaje = ref("")
+let mensaje = ref("");
 let errorCount = ref(0);
-let palabraSecreta = ref('');
+let palabraSecreta = ref("");
 let juegoPerdido = ref(false);
 let juegoGanado = ref(false);
 let letrasRestantes = ref(0);
@@ -62,10 +73,8 @@ const palabrasDisponibles = [
   "FRESA",
   "GRANADILLA",
   "MARACUYA",
-  "GUAYABA"
+  "GUAYABA",
 ];
-
-
 
 function clickLetra(letter) {
   if (!usoLetras.value.includes(letter)) {
@@ -75,41 +84,30 @@ function clickLetra(letter) {
         juegoGanado.value = true;
       }
     } else {
-      if (props.dificultadSelec === 'Facil') {
-        letrasRestantes.value--;
-        errorCount.value += 1;
-      } else if (props.dificultadSelec === 'Medio') {
-        letrasRestantes.value--;
-        errorCount.value += 2;
-      } else if (props.dificultadSelec === 'Dificil') {
-        letrasRestantes.value--;
-        errorCount.value += 3;
-      }
+      letrasRestantes.value--;
+      errorCount.value += 1;
+    }
 
-      if (errorCount.value >= 6) {
-        juegoPerdido.value = true;
-        mensaje.value = "Perdiste";
-        // También puedes ocultar la letra aquí si es necesario.
-        // Esto debe manejarse en la vista, no en la lógica.
-      }
+    if (errorCount.value >= 5) {
+      errorCount.value = 5;
+      juegoPerdido.value = true;
+      mensaje.value = "Perdiste";
     }
   }
 }
 
-
 /* console.log("Dificultad seleccionada:", dificultadSeleccionada.value); */
 console.log("errorCount:", errorCount.value);
 
-
 function mostrarPalabraOculta() {
-  let palabraMostrada = '';
+  let palabraMostrada = "";
   for (const letra of palabraSecreta.value) {
     if (usoLetras.value.includes(letra)) {
       palabraMostrada += letra;
     } else {
-      palabraMostrada += '_';
+      palabraMostrada += "_";
     }
-    palabraMostrada += ' ';
+    palabraMostrada += " ";
   }
   return palabraMostrada.trim();
 }
@@ -123,8 +121,6 @@ function letrasAdivinadas() {
   return true;
 }
 
-
-
 function puedeSeleccionarLetra(letter) {
   return letrasRestantes.value > 0 && !usoLetras.value.includes(letter);
 }
@@ -132,7 +128,6 @@ function generarPalabraAleatoria(palabras) {
   const randomIndex = Math.floor(Math.random() * palabras.length);
   return palabras[randomIndex].toUpperCase();
 }
-
 </script>
 
 <style scoped>
