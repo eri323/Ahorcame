@@ -88,7 +88,7 @@ function clickLetra(letter) {
       errorCount.value += 1;
     }
 
-    if (errorCount.value >= 5) {
+    if (errorCount.value >= 6) {
       errorCount.value = 5;
       juegoPerdido.value = true;
       mensaje.value = "Perdiste";
