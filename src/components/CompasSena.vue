@@ -1,34 +1,21 @@
 <template>
   <div class="bodyPaises">
     <div v-if="MostrarDificultad">
-      <div id="ContainerDificultad" >
+      <div id="ContainerDificultad">
         <h3 style="font-size: 40px; margin: 0;">Elige la dificultad</h3>
         <div class="BotonesDificultad">
-          <button
-            class="BotonFacil"
-            id="Botones"
-            @click="seleccionarDificultad('Facil')"
-          >
+          <button class="BotonFacil" id="Botones" @click="seleccionarDificultad('Facil')">
             <span class="BotonDificultadSpan">
               {{ DificultadFacil }}
               <!-- <Frutas :dificultadSelec="dificultadSeleccionada"/>  -->
             </span>
           </button>
-          <button
-            class="BotonMedio"
-            id="Botones"
-            @click="seleccionarDificultad('Medio')"
-          >
+          <button class="BotonMedio" id="Botones" @click="seleccionarDificultad('Medio')">
             <span class="BotonDificultadSpan">
               {{ DificultadMedio }}
-              <!-- <Frutas :dificultadSelec="dificultadSeleccionada"/> --></span
-            >
+              <!-- <Frutas :dificultadSelec="dificultadSeleccionada"/> --></span>
           </button>
-          <button
-            class="BotonDificil"
-            id="Botones"
-            @click="seleccionarDificultad('Dificil')"
-          >
+          <button class="BotonDificil" id="Botones" @click="seleccionarDificultad('Dificil')">
             <span class="BotonDificultadSpan">
               {{ DificultadDificil }}
               <!-- <Frutas :dificultadSelec="dificultadSeleccionada"/> -->
@@ -37,19 +24,13 @@
         </div>
       </div>
     </div>
-    <div v-if="MostrarJugabilidad">
+    <div class="Container1" v-if="MostrarJugabilidad">
       <div class="containerJugabilidad">
         <h1>Ahorcame</h1>
         <div class="ContainerImgs">
-          <img
-            class="imgerror"
-            :src="'./src/assets/' + errorCount + '.png'"
-            alt="Ahorcado"
-          />
+          <img class="imgerror" :src="'./src/assets/' + errorCount + '.png'" alt="Ahorcado" />
         </div>
-        <div>
-          <h1 class="Msj">{{ mensaje }}</h1>
-        </div>
+
       </div>
       <div class="containerPaises">
         <div class="ContainerTituloPaises">
@@ -58,20 +39,16 @@
         <div class="LetrasAñadidad">
           <h2 class="LetrasAñadidas">{{ mostrarPalabraOculta() }}</h2>
         </div>
-        <div class="tecladoContainerPais">
-          <button
-            v-for="letter in Letras"
-            :key="letter"
-            class="TecladoPais"
-            @click="clickLetra(letter)"
-            :disabled="
-              usoLetras.includes(letter) ||
-              !puedeSeleccionarLetra(letter) ||
-              juegoGanado
-            "
-          >
+        <div class="tecladoContainerPais" v-if="MostrarTeclado">
+          <button v-for="letter in Letras" :key="letter" class="TecladoPais" @click="clickLetra(letter)" :disabled="usoLetras.includes(letter) ||
+            !puedeSeleccionarLetra(letter) ||
+            juegoGanado
+            ">
             {{ letter }}
           </button>
+        </div>
+        <div>
+          <h1 class="Msj">{{ mensaje }}</h1>
         </div>
       </div>
     </div>
@@ -94,7 +71,7 @@ const dificultadSelec = defineProps({
 let DificultadFacil = ref("Facil")
 
 let DificultadMedio = ref("Medio")
-
+let MostrarTeclado = ref(true)
 let DificultadDificil = ref("Dificil")
 let mensaje = ref("");
 let errorCount = ref(0);
@@ -104,20 +81,20 @@ let juegoGanado = ref(false);
 let letrasRestantes = ref(0);
 
 const palabrasDisponibles = [
-    "ANDRES",
-    "SEBASTIAN",
-    "BRYANT",
-    "ERICK",
-    "LUIS",
-    "LEONEL",
-    "LAURA",
-    "HECTOR",
-    "NELSON",
-    "JOHN",
-    "MANUEL",
-    "EDWIN",
-    "KEVIN"
-  ];
+  "ANDRES",
+  "SEBASTIAN",
+  "BRYANT",
+  "ERICK",
+  "LUIS",
+  "LEONEL",
+  "LAURA",
+  "HECTOR",
+  "NELSON",
+  "JOHN",
+  "MANUEL",
+  "EDWIN",
+  "KEVIN"
+];
 const dificultadSeleccionada = ref('');
 
 const dificultadError = ref(0);
@@ -134,14 +111,14 @@ function clickLetra(letter) {
       if (letrasAdivinadas()) {
         juegoGanado.value = true;
       }
-    } else if(dificultadSeleccionada.value=="Facil"){
+    } else if (dificultadSeleccionada.value == "Facil") {
       letrasRestantes.value--;
       errorCount.value += 1;
-    }else if(dificultadSeleccionada.value=="Medio"){
+    } else if (dificultadSeleccionada.value == "Medio") {
       letrasRestantes.value--;
       errorCount.value += 2;
     }
-    else if(dificultadSeleccionada.value=="Dificil"){
+    else if (dificultadSeleccionada.value == "Dificil") {
       letrasRestantes.value--;
       errorCount.value += 3;
     }
@@ -149,6 +126,7 @@ function clickLetra(letter) {
       juegoPerdido.value = true;
       mensaje.value = "Perdiste";
       errorCount.value = 5;
+      MostrarTeclado.value = false
     }
   }
 }
@@ -201,25 +179,36 @@ function generarPalabraAleatoria(palabras) {
   color: white;
   transition: all 0.5s ease-in-out;
 }
+
 .BotonDificultadSpan {
   padding: 20px 20px;
 }
+
 .imgerror {
   width: 400px;
   max-height: 300px;
   border-radius: 15px;
   border: 1px solid black;
 }
+
 .BotonesDificultad {
   display: flex;
   gap: 10px;
 }
+
 .containerJugabilidad {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
 }
+
+.Container1 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
 .bodyPaises {
   height: 100vh;
   display: flex;
@@ -227,6 +216,7 @@ function generarPalabraAleatoria(palabras) {
   justify-content: space-around;
   align-items: center;
 }
+
 #ContainerDificultad {
   display: flex;
   flex-direction: column;
@@ -236,6 +226,7 @@ function generarPalabraAleatoria(palabras) {
   border-radius: 15px;
   gap: 20px;
 }
+
 .containerPaises {
   background-color: rgba(255, 255, 255, 0.418);
   padding: 20px;
@@ -246,6 +237,7 @@ function generarPalabraAleatoria(palabras) {
   align-items: center;
   justify-content: center;
 }
+
 @font-face {
   font-family: "Pa ver";
   src: url("./fonts/Anta-Regular.ttf");
@@ -259,9 +251,11 @@ function generarPalabraAleatoria(palabras) {
   width: 600px;
   font-size: 25px;
 }
+
 .TituloPaises {
   font-size: 55px;
 }
+
 .TecladoPais {
   font-family: "Pa ver";
   padding: 8px;

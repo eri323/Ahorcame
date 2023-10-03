@@ -37,7 +37,7 @@
         </div>
       </div>
     </div>
-    <div v-if="MostrarJugabilidad">
+    <div    class="Container1"  v-if="MostrarJugabilidad">
       <div class="containerJugabilidad">
         <h1>Ahorcame</h1>
         <div class="ContainerImgs">
@@ -47,9 +47,7 @@
             alt="Ahorcado"
           />
         </div>
-        <div>
-          <h1 class="Msj">{{ mensaje }}</h1>
-        </div>
+       
       </div>
       <div class="containerPaises">
         <div class="ContainerTituloPaises">
@@ -58,8 +56,9 @@
         <div class="LetrasAñadidad">
           <h2 class="LetrasAñadidas">{{ mostrarPalabraOculta() }}</h2>
         </div>
-        <div class="tecladoContainerPais">
+        <div class="tecladoContainerPais" v-if="MostrarTeclado">
           <button
+          
             v-for="letter in Letras"
             :key="letter"
             class="TecladoPais"
@@ -69,10 +68,14 @@
               !puedeSeleccionarLetra(letter) ||
               juegoGanado
             "
+            
           >
             {{ letter }}
           </button>
         </div>
+         <div>
+            <h1 class="Msj">{{ mensaje }}</h1>
+          </div>
       </div>
     </div>
   </div>
@@ -94,7 +97,7 @@ const dificultadSelec = defineProps({
 let DificultadFacil = ref("Facil")
 
 let DificultadMedio = ref("Medio")
-
+let MostrarTeclado = ref(true)
 let DificultadDificil = ref("Dificil")
 let mensaje = ref("");
 let errorCount = ref(0);
@@ -150,6 +153,7 @@ function clickLetra(letter) {
       juegoPerdido.value = true;
       mensaje.value = "Perdiste";
       errorCount.value = 5;
+      MostrarTeclado.value = false
     }
   }
 }
@@ -220,6 +224,11 @@ function generarPalabraAleatoria(palabras) {
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
+}
+.Container1{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 .bodyPaises {
   height: 100vh;
