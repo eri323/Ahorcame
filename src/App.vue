@@ -12,19 +12,8 @@
         <button class="BotonJugar type1" @click="ShowCard">
           <span class="btn-txt">Jugar</span>
         </button>
-        <div id="ContainerDificultad" :class="{ 'visible': isCardVisible }">
-          <h3>Elige la dificultad </h3>
-          <div class="BotonesDificultad">
-            <button class="BotonFacil" id="Botones" @click="seleccionarDificultad('Facil')">
-              <span class="BotonDificultadSpan" > {{ DificultadFacil }} <!-- <Frutas :dificultadSelec="dificultadSeleccionada"/>  --> </span> </button>
-            <button class="BotonMedio" id="Botones" @click="seleccionarDificultad('Medio')"> <span
-                class="BotonDificultadSpan" > {{ DificultadMedio }} <!-- <Frutas :dificultadSelec="dificultadSeleccionada"/> --></span> </button>
-            <button class="BotonDificil" id="Botones" @click="seleccionarDificultad('Dificil')"><span
-                class="BotonDificultadSpan" > {{ DificultadDificil }} <!-- <Frutas :dificultadSelec="dificultadSeleccionada"/> --> </span></button>
-          </div>
-           <Frutas :dificultadSelec="dificultadSeleccionada" style="display: none;"/>
-        </div>
-        <div id="ContainerCategoria" :class="{ 'visibleCategoria': isCardVisibleCategoria }">
+        
+        <div id="ContainerCategoria" :class="{ 'visibleCategoria': isCardVisible }">
           <h3>Elige la categoria en la que desees jugar</h3>
           <div class="BotonesCategoria">
             <button id="BtnFrutas" class="BtnCategoria">
@@ -54,11 +43,7 @@ let isCardVisible = ref(false)
 
 let isCardVisibleCategoria = ref(false)
 
-let DificultadFacil = ref("Facil")
 
-let DificultadMedio = ref("Medio")
-
-let DificultadDificil = ref("Dificil")
 
 const categoriaSelec = ref('');
 const dificultadSeleccionada = ref('');
@@ -77,12 +62,7 @@ function ShowCard() {
 
 
 
-const seleccionarDificultad = (dificultad) => {
-  dificultadSeleccionada.value = dificultad;
-  isCardVisibleCategoria.value = true; // Muestra la categoría seleccionada
-  console.log("difi:", dificultadSeleccionada.value);
-  
-};
+
 
 
 </script>
