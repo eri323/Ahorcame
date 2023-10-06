@@ -1,7 +1,6 @@
 <template>
   <div class="bodyPaises">
     <div v-if="MostrarDificultad">
-      
       <div id="ContainerDificultad">
         <h3 style="font-size: 40px; margin: 0;">Elige la dificultad</h3>
         <div class="BotonesDificultad">
@@ -37,7 +36,7 @@
         <div class="ContainerTituloPaises">
           <h1 class="TituloPaises">Animales</h1>
         </div>
-        <div class="LetrasAñadidad">
+        <div class="LetrasAñadidad" v-if="LA">
           <h2 class="LetrasAñadidas">{{ mostrarPalabraOculta() }}</h2>
         </div>
         <div class="tecladoContainerPais" v-if="MostrarTeclado">
@@ -48,8 +47,11 @@
             {{ letter }}
           </button>
         </div>
-        <div>
+        <div style="display: flex; flex-direction: column;
+         gap: 15px; justify-content: center;">
+          <h1>{{ mensaje2 }}</h1>
           <h1 class="Msj">{{ mensaje }}</h1>
+
         </div>
       </div>
     </div>
@@ -65,8 +67,6 @@ import img3 from "../assets/3.jpg"
 import img4 from "../assets/4.jpg"
 import img5 from "../assets/5.jpg"
 import img6 from "../assets/6.jpg"
-
-
 onMounted(() => {
   palabraSecreta.value = generarPalabraAleatoria(palabrasDisponibles);
   letrasRestantes.value = palabraSecreta.value.length;
@@ -79,12 +79,6 @@ const dificultadSelec = defineProps({
   dificultadSelec: String,
 });
 let DificultadFacil = ref("Facil")
-
-let DificultadMedio = ref("Medio")
-let MostrarTeclado = ref(true)
-let DificultadDificil = ref("Dificil")
-let mensaje = ref("");
-let errorCount = ref(0);
 let currentImg = ref(img0);
 let currentImg1 = ref(img1);
 let currentImg2 = ref(img2);
@@ -92,11 +86,16 @@ let currentImg3 = ref(img3);
 let currentImg4 = ref(img4);
 let currentImg5 = ref(img5);
 let currentImg6 = ref(img6);
+let DificultadMedio = ref("Medio")
+let MostrarTeclado = ref(true)
+let DificultadDificil = ref("Dificil")
+let mensaje = ref("");
+let errorCount = ref(0);
 let palabraSecreta = ref("");
 let juegoPerdido = ref(false);
 let juegoGanado = ref(false);
 let letrasRestantes = ref(0);
-
+let LA = ref(true)
 const palabrasDisponibles = [
   "PERRO",
   "GATO",
@@ -152,11 +151,13 @@ function clickLetra(letter) {
       mensaje.value = "Perdiste";
       errorCount.value = 6;
       MostrarTeclado.value = false;
+      mensaje2.value = palabraSecreta.value
+      LA.value = false;
     }
   }
 }
 console.log("errorCount:", errorCount.value);
-
+let mensaje2 = ref("")
 function mostrarPalabraOculta() {
   let palabraMostrada = "";
   for (const letra of palabraSecreta.value) {
@@ -196,7 +197,7 @@ function generarPalabraAleatoria(palabras) {
   border: none;
   font-size: 17px;
   height: 50px;
-  
+
 }
 
 #Botones:hover {
@@ -253,7 +254,7 @@ function generarPalabraAleatoria(palabras) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.759);
+  background-color: rgba(255, 255, 255, 0.582);
   padding: 20px;
   border-radius: 15px;
   gap: 20px;
@@ -307,13 +308,15 @@ function generarPalabraAleatoria(palabras) {
   transition: all 0.5s ease-in-out;
   cursor: pointer;
 }
+
 @media screen and (max-width: 640px) {
-  .tecladoContainerPais{
+  .tecladoContainerPais {
     width: auto;
   }
 }
+
 @media screen and (max-width: 430px) {
-  .imgerror{
+  .imgerror {
     width: 300px;
     max-height: 200px;
   }
