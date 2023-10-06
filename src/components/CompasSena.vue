@@ -36,7 +36,7 @@
         <div class="ContainerTituloPaises">
           <h1 class="TituloPaises">Compañeros</h1>
         </div>
-        <div class="LetrasAñadidad">
+        <div class="LetrasAñadidad" v-if="LA">
           <h2 class="LetrasAñadidas">{{ mostrarPalabraOculta() }}</h2>
         </div>
         <div class="tecladoContainerPais" v-if="MostrarTeclado">
@@ -47,8 +47,11 @@
             {{ letter }}
           </button>
         </div>
-        <div>
+        <div style="display: flex; flex-direction: column;
+         gap: 15px; justify-content: center;">
+          <h1>{{ mensaje2 }}</h1>
           <h1 class="Msj">{{ mensaje }}</h1>
+          
         </div>
       </div>
     </div>
@@ -92,7 +95,7 @@ let palabraSecreta = ref("");
 let juegoPerdido = ref(false);
 let juegoGanado = ref(false);
 let letrasRestantes = ref(0);
-
+let LA = ref(true)
 const palabrasDisponibles = [
   "ANDRES",
   "SEBASTIAN",
@@ -152,11 +155,13 @@ function clickLetra(letter) {
       mensaje.value = "Perdiste";
       errorCount.value = 6;
       MostrarTeclado.value = false;
+      mensaje2.value = palabraSecreta.value
+      LA.value = false;
     }
   }
 }
 console.log("errorCount:", errorCount.value);
-
+let mensaje2 = ref("")
 function mostrarPalabraOculta() {
   let palabraMostrada = "";
   for (const letra of palabraSecreta.value) {
