@@ -28,7 +28,7 @@
       <div class="containerJugabilidad">
         <h1>Ahorcame</h1>
         <div class="ContainerImgs">
-          <img class="imgerror" :src="'./src/assets/' + errorCount + '.png'" alt="Ahorcado" />
+          <img class="imgerror" :src="'./src/assets/' + errorCount + '.jpg'" alt="Ahorcado" />
         </div>
 
       </div>

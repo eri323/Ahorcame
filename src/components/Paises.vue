@@ -43,7 +43,7 @@
         <div class="ContainerImgs">
           <img
             class="imgerror"
-            :src="'./src/assets/' + errorCount + '.png'"
+            :src="'./src/assets/' + errorCount + '.jpg'"
             alt="Ahorcado"
           />
         </div>
