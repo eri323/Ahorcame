@@ -3,10 +3,7 @@
     <div class="inicio">
       <div class="encabezado">
         <h1 class="title">Bienvenido</h1>
-        <p class="TextInicio">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nostrum velit odit quo, debitis
-          expedita explicabo
-          ullam dolor ad earum voluptatem sit eligendi inventore aperiam molestiae reiciendis incidunt vel ducimus.
-          Voluptate.</p>
+        <p class="TextInicio">¡Bienvenido al juego del ahorcado! En este desafiante juego de palabras, tendrás que adivinar la palabra oculta letra por letra antes de que el ahorcado sea completado. Cada letra incorrecta acerca más al ahorcado a su destino, ¡así que elige tus letras con cuidado! </p>
       </div>
       <div class="jugar">
         <button class="BotonJugar type1" @click="ShowCard">
@@ -14,7 +11,7 @@
         </button>
         
         <div id="ContainerCategoria" :class="{ 'visibleCategoria': isCardVisible }">
-          <h3>Elige la categoria en la que desees jugar</h3>
+          <h3 style="text-align: center;">Elige la categoria en la que desees jugar</h3>
           <div class="BotonesCategoria">
             <button id="BtnFrutas" class="BtnCategoria">
               <span class="spanbtn" @click="seleccionarCategoria('Frutas')" >Frutas</span>
@@ -25,7 +22,7 @@
             <button id="BtnPaises" class="BtnCategoria"> <span class="spanbtn"
                 @click="seleccionarCategoria('Paises')">Paises</span></button>
             <button id="BtnCompas" class="BtnCategoria"><span class="spanbtn"
-                @click="seleccionarCategoria('Compas')">Compas del SENA</span></button>
+                @click="seleccionarCategoria('Compas')">Compañeros</span></button>
           </div>
         </div>
       </div>
@@ -86,6 +83,8 @@ function ShowCard() {
 
 .TextInicio {
   font-size: 20px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 * {
@@ -99,12 +98,14 @@ function ShowCard() {
 
 .inicio {
   font-family: "Pa ver";
-  background-color: rgba(255, 255, 255, 0.418);
+  background-color: rgba(255, 255, 255, 0.759);
   padding: 20PX;
   border-radius: 15PX;
   display: flex;
   flex-direction: column;
   gap: 15px;
+  flex-wrap: wrap;
+  align-content: center;
 }
 
 .encabezado {
@@ -115,6 +116,7 @@ function ShowCard() {
   flex-direction: column;
   align-items: center;
   text-align: center;
+  flex-wrap: wrap;
 }
 
 .jugar {
@@ -133,7 +135,7 @@ function ShowCard() {
   position: relative;
   background-color: white;
   cursor: pointer;
-  border: 2px solid #252525;
+  border: none;
   overflow: hidden;
   transition: all 0.5s ease-in-out;
 }
@@ -205,12 +207,14 @@ function ShowCard() {
   display: none;
   justify-content: center;
   align-items: center;
+  
 }
 
 .BotonesCategoria {
   display: flex;
   justify-content: center;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 #ContainerCategoria.visibleCategoria {
@@ -229,7 +233,7 @@ function ShowCard() {
   width: 130px;
   transition: all 0.5s;
   height: 50px;
-  width: 100px;
+  width: 130px;
 }
 
 .spanbtn {
@@ -250,7 +254,9 @@ function ShowCard() {
 
 
 .BtnCategoria:hover .spanbtn {
-  padding-right: 15px;
+padding-right: 15px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .BtnCategoria:hover .spanbtn:after {
@@ -272,4 +278,15 @@ function ShowCard() {
   display: flex;
   align-items: center;
 }
+@media screen and (max-width: 530px) {
+  .inicio{
+    padding: 10px 10px;
+    width: 300px;
+  }
+ 
+  .encabezado{
+    width: auto;
+  }
+}
+
 </style>

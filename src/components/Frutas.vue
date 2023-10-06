@@ -26,9 +26,9 @@
     </div>
     <div class="Container1" v-if="MostrarJugabilidad">
       <div class="containerJugabilidad">
-        <h1>Ahorcame</h1>
+        <h1 style="text-align: center;">¡Adivina la palabra y salva a Homero!</h1>
         <div class="ContainerImgs">
-          <img class="imgerror" :src="'./src/assets/' + errorCount + '.jpg'" alt="Ahorcado" />
+          <img class="imgerror" :src="currentImg" alt="Ahorcado" />
         </div>
 
       </div>
@@ -57,6 +57,13 @@
 
 <script setup>
 import { ref, onMounted, defineProps } from "vue";
+import img0 from "../assets/0.jpg"
+import img1 from "../assets/1.jpg"
+import img2 from "../assets/2.jpg"
+import img3 from "../assets/3.jpg"
+import img4 from "../assets/4.jpg"
+import img5 from "../assets/5.jpg"
+import img6 from "../assets/6.jpg"
 onMounted(() => {
   palabraSecreta.value = generarPalabraAleatoria(palabrasDisponibles);
   letrasRestantes.value = palabraSecreta.value.length;
@@ -75,6 +82,7 @@ let MostrarTeclado = ref(true)
 let DificultadDificil = ref("Dificil")
 let mensaje = ref("");
 let errorCount = ref(0);
+let currentImg = ref(img0);
 let palabraSecreta = ref("");
 let juegoPerdido = ref(false);
 let juegoGanado = ref(false);
@@ -114,19 +122,31 @@ function clickLetra(letter) {
     } else if (dificultadSeleccionada.value == "Facil") {
       letrasRestantes.value--;
       errorCount.value += 1;
+
+      if (errorCount.value <= 6) {
+        currentImg.value = eval(`img${errorCount.value}`);
+      }
     } else if (dificultadSeleccionada.value == "Medio") {
       letrasRestantes.value--;
       errorCount.value += 2;
-    }
-    else if (dificultadSeleccionada.value == "Dificil") {
+
+      if (errorCount.value <= 6) {
+        currentImg.value = eval(`img${errorCount.value}`);
+      }
+    } else if (dificultadSeleccionada.value == "Dificil") {
       letrasRestantes.value--;
       errorCount.value += 3;
+
+      if (errorCount.value <= 6) {
+        currentImg.value = eval(`img${errorCount.value}`);
+      }
     }
-    if (errorCount.value >= 5) {
+
+    if (errorCount.value >= 6) {
       juegoPerdido.value = true;
       mensaje.value = "Perdiste";
-      errorCount.value = 5;
-      MostrarTeclado.value = false
+      errorCount.value = 6;
+      MostrarTeclado.value = false;
     }
   }
 }
@@ -171,7 +191,7 @@ function generarPalabraAleatoria(palabras) {
   border: none;
   font-size: 17px;
   height: 50px;
-  width: 100px;
+  
 }
 
 #Botones:hover {
@@ -201,12 +221,19 @@ function generarPalabraAleatoria(palabras) {
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
+  background-color: rgba(255, 255, 255, 0.759);
+  padding: 20px;
+  border-radius: 15px;
+  gap: 20px;
 }
 
 .Container1 {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
 }
 
 .bodyPaises {
@@ -274,5 +301,16 @@ function generarPalabraAleatoria(palabras) {
   background-color: black;
   transition: all 0.5s ease-in-out;
   cursor: pointer;
+}
+@media screen and (max-width: 640px) {
+  .tecladoContainerPais{
+    width: auto;
+  }
+}
+@media screen and (max-width: 430px) {
+  .imgerror{
+    width: 300px;
+    max-height: 200px;
+  }
 }
 </style>

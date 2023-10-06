@@ -4,6 +4,8 @@ body{
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   background-image: url("./assets/aho.jpg");
   background-size: cover;
+  background-attachment: fixed;
+
 
 }
 
