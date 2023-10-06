@@ -28,7 +28,7 @@
       <div class="containerJugabilidad">
         <h1>Ahorcame</h1>
         <div class="ContainerImgs">
-          <img class="imgerror" :src="'./src/assets/' + errorCount + '.jpg'" alt="Ahorcado" />
+          <img class="imgerror" :src="img0" alt="Ahorcado" />
         </div>
 
       </div>
@@ -57,12 +57,12 @@
 
 <script setup>
 import { ref, onMounted, defineProps } from "vue";
-/* import img0 from "../assets/0.png"
-import img1 from "../assets/1.png"
-import img2 from "../assets/2.png"
-import img3 from "../assets/3.png"
-import img4 from "../assets/4.png"
-import img5 from "../assets/5.png" */
+import img0 from "../assets/0.jpg"
+import img1 from "../assets/1.jpg"
+import img2 from "../assets/2.jpg"
+import img3 from "../assets/3.jpg"
+import img4 from "../assets/4.jpg"
+import img5 from "../assets/5.jpg"
 
 onMounted(() => {
   palabraSecreta.value = generarPalabraAleatoria(palabrasDisponibles);
