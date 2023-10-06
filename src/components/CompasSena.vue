@@ -77,6 +77,12 @@ const dificultadSelec = defineProps({
 });
 let DificultadFacil = ref("Facil")
 let currentImg = ref(img0);
+let currentImg1 = ref(img1);
+let currentImg2 = ref(img2);
+let currentImg3 = ref(img3);
+let currentImg4 = ref(img4);
+let currentImg5 = ref(img5);
+let currentImg6 = ref(img6);
 let DificultadMedio = ref("Medio")
 let MostrarTeclado = ref(true)
 let DificultadDificil = ref("Dificil")
