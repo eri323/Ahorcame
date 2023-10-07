@@ -243,7 +243,7 @@ function generarPalabraAleatoria(palabras) {
 }
 
 .bodyPaises {
-  height: 100vh;
+  padding-top: 150px;
   display: flex;
   font-family: "Pa ver";
   justify-content: space-around;
