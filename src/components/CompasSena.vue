@@ -2,46 +2,23 @@
   <div class="bodyPaises">
     <div v-if="MostrarDificultad">
       <div id="ContainerDificultad">
-        <h3 style="font-size: 40px; margin: 0">Elige la dificultad</h3>
+        <h3 style="font-size: 40px; margin: 0;">Elige la dificultad</h3>
         <div class="BotonesDificultad">
-          <button
-            class="BotonFacil"
-            id="Botones"
-            @click="seleccionarDificultad('Facil')"
-          >
-            <span class="BotonDificultadSpan">
-              {{ DificultadFacil }}
-              <!-- <Frutas :dificultadSelec="dificultadSeleccionada"/>  -->
-            </span>
+          <button class="BotonFacil" id="Botones" @click="seleccionarDificultad('Facil')">
+            <span class="BotonDificultadSpan">{{ DificultadFacil }}</span>
           </button>
-          <button
-            class="BotonMedio"
-            id="Botones"
-            @click="seleccionarDificultad('Medio')"
-          >
-            <span class="BotonDificultadSpan">
-              {{ DificultadMedio }}
-              <!-- <Frutas :dificultadSelec="dificultadSeleccionada"/> --></span
-            >
+          <button class="BotonMedio" id="Botones" @click="seleccionarDificultad('Medio')">
+            <span class="BotonDificultadSpan">{{ DificultadMedio }}</span>
           </button>
-          <button
-            class="BotonDificil"
-            id="Botones"
-            @click="seleccionarDificultad('Dificil')"
-          >
-            <span class="BotonDificultadSpan">
-              {{ DificultadDificil }}
-              <!-- <Frutas :dificultadSelec="dificultadSeleccionada"/> -->
-            </span>
+          <button class="BotonDificil" id="Botones" @click="seleccionarDificultad('Dificil')">
+            <span class="BotonDificultadSpan">{{ DificultadDificil }}</span>
           </button>
         </div>
       </div>
     </div>
     <div class="Container1" v-if="MostrarJugabilidad">
       <div class="containerJugabilidad">
-        <h1 style="text-align: center">
-          ¡Adivina la palabra y salva a Homero!
-        </h1>
+        <h1 style="text-align: center;">{{ Mesagge }}</h1>
         <div class="ContainerImgs">
           <img class="imgerror" :src="currentImg" alt="Ahorcado" />
         </div>
@@ -54,26 +31,17 @@
           <h2 class="LetrasAñadidas">{{ mostrarPalabraOculta() }}</h2>
         </div>
         <div class="tecladoContainerPais" v-if="MostrarTeclado">
-          <button
-            v-for="letter in Letras"
-            :key="letter"
-            class="TecladoPais"
-            @click="clickLetra(letter)"
-            :disabled="
-              usoLetras.includes(letter) ||
-              !puedeSeleccionarLetra(letter) ||
-              juegoGanado
-            "
-          >
+          <button v-for="letter in Letras" :key="letter" class="TecladoPais" @click="clickLetra(letter)"
+            :disabled="usoLetras.includes(letter) || !puedeSeleccionarLetra(letter) || juegoGanado">
             {{ letter }}
           </button>
         </div>
-        <div
-          style="display: flex; flex-direction: column; justify-content: center"
-          class="containerMensajes"
-        >
+        <div style="display: flex; flex-direction: column; gap: 15px; justify-content: center;">
           <h1>{{ mensaje2 }}</h1>
           <h1 class="Msj">{{ mensaje }}</h1>
+          <button v-if="MostrarBoton" id="Botones" @click="volverJugar()">
+            Volver a Jugar
+          </button>
         </div>
       </div>
     </div>
@@ -89,17 +57,23 @@ import img3 from "../assets/3.jpg";
 import img4 from "../assets/4.jpg";
 import img5 from "../assets/5.jpg";
 import img6 from "../assets/6.jpg";
+import gif from "../assets/gi.gif"
+
 onMounted(() => {
   palabraSecreta.value = generarPalabraAleatoria(palabrasDisponibles);
   letrasRestantes.value = palabraSecreta.value.length;
 });
+
 const Letras = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ".split("");
 const usoLetras = ref([]);
 let MostrarDificultad = ref(true);
 let MostrarJugabilidad = ref(false);
+
 const dificultadSelec = defineProps({
   dificultadSelec: String,
 });
+let MostrarBoton = ref(false)
+let Mesagge = ref("¡Adivina la palabra y salva a Homero!")
 let DificultadFacil = ref("Facil");
 let currentImg = ref(img0);
 let currentImg1 = ref(img1);
@@ -108,6 +82,7 @@ let currentImg3 = ref(img3);
 let currentImg4 = ref(img4);
 let currentImg5 = ref(img5);
 let currentImg6 = ref(img6);
+let currentImg7 = ref(gif);
 let DificultadMedio = ref("Medio");
 let MostrarTeclado = ref(true);
 let DificultadDificil = ref("Dificil");
@@ -118,6 +93,7 @@ let juegoPerdido = ref(false);
 let juegoGanado = ref(false);
 let letrasRestantes = ref(0);
 let LA = ref(true);
+
 const palabrasDisponibles = [
   "ANDRES",
   "SEBASTIAN",
@@ -133,62 +109,81 @@ const palabrasDisponibles = [
   "EDWIN",
   "KEVIN",
 ];
-const dificultadSeleccionada = ref("");
-
+function volverJugar() {
+  palabraSecreta.value = generarPalabraAleatoria(palabrasDisponibles);
+  letrasRestantes.value = palabraSecreta.value.length;
+  usoLetras.value = [];
+  errorCount.value = 0;
+  currentImg.value = img0;
+  palabraAdivinada.value = false;
+  juegoPerdido.value = false;
+  juegoGanado.value = false;
+  LA.value = true;
+  MostrarJugabilidad.value = false;
+  MostrarDificultad.value = true;
+  MostrarBoton.value = false;
+  mensaje.value = "";
+  mensaje2.value = "";
+  dificultadSeleccionada.value = '';
+  MostrarTeclado.value=true;
+  Msj.value=""
+}
+const dificultadSeleccionada = ref('');
 const dificultadError = ref(0);
-const seleccionarDificultad = (dificultad) => {
+
+let palabraAdivinada = ref(false);
+
+function seleccionarDificultad(dificultad) {
   dificultadSeleccionada.value = dificultad;
   MostrarJugabilidad.value = true;
   MostrarDificultad.value = false;
-  console.log("difi:", dificultadSeleccionada.value);
-};
+}
+
 function clickLetra(letter) {
   if (!usoLetras.value.includes(letter)) {
     usoLetras.value.push(letter);
     if (palabraSecreta.value.includes(letter)) {
       if (letrasAdivinadas()) {
-        juegoGanado.value = true;
+        palabraAdivinada.value = true;
+        mensaje.value = "Felicidades, adivinaste la palabra";
+        Mesagge.value = "¡Salvaste a Homero!"
+        MostrarTeclado.value = false;
+        currentImg.value = currentImg7.value
+        MostrarBoton.value = true
       }
     } else if (dificultadSeleccionada.value == "Facil") {
       letrasRestantes.value--;
       errorCount.value += 1;
-
       if (errorCount.value <= 6) {
         currentImg.value = eval(`img${errorCount.value}`);
       }
     } else if (dificultadSeleccionada.value == "Medio") {
       letrasRestantes.value--;
       errorCount.value += 2;
-
       if (errorCount.value <= 6) {
         currentImg.value = eval(`img${errorCount.value}`);
       }
     } else if (dificultadSeleccionada.value == "Dificil") {
       letrasRestantes.value--;
       errorCount.value += 3;
-
       if (errorCount.value <= 6) {
         currentImg.value = eval(`img${errorCount.value}`);
       }
     }
-
     if (errorCount.value >= 6) {
+      juegoPerdido.value = true;
       mensaje.value = "Perdiste";
       errorCount.value = 6;
       MostrarTeclado.value = false;
       mensaje2.value = palabraSecreta.value;
       LA.value = false;
+      MostrarBoton.value = true
     }
-/* 
-    if (mensaje2.value) {
-      mensaje.value = "Ganaste";
-      MostrarTeclado.value = false;
-      LA.value = false;
-    } */
   }
 }
-console.log("errorCount:", errorCount.value);
+
 let mensaje2 = ref("");
+
 function mostrarPalabraOculta() {
   let palabraMostrada = "";
   for (const letra of palabraSecreta.value) {
@@ -214,11 +209,14 @@ function letrasAdivinadas() {
 function puedeSeleccionarLetra(letter) {
   return letrasRestantes.value > 0 && !usoLetras.value.includes(letter);
 }
+
 function generarPalabraAleatoria(palabras) {
   const randomIndex = Math.floor(Math.random() * palabras.length);
   return palabras[randomIndex].toUpperCase();
 }
+
 </script>
+
 
 <style scoped>
 #Botones {
@@ -228,6 +226,7 @@ function generarPalabraAleatoria(palabras) {
   border: none;
   font-size: 17px;
   height: 50px;
+
 }
 
 #Botones:hover {
@@ -273,11 +272,11 @@ function generarPalabraAleatoria(palabras) {
 }
 
 .bodyPaises {
+  padding-top: 150px;
   display: flex;
   font-family: "Pa ver";
   justify-content: space-around;
   align-items: center;
-  padding-top: 150px;
 }
 
 #ContainerDificultad {
@@ -338,18 +337,13 @@ function generarPalabraAleatoria(palabras) {
   transition: all 0.5s ease-in-out;
   cursor: pointer;
 }
-.containerMensajes {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+
 @media screen and (max-width: 640px) {
   .tecladoContainerPais {
     width: auto;
   }
 }
+
 @media screen and (max-width: 430px) {
   .imgerror {
     width: 300px;
